@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component-with-filter';
+import { useSelector } from 'react-redux';
 import './DataTable.scss'
 import Pagination from './Pagination';
 
@@ -70,28 +71,9 @@ const customStyles = {
 };
 
 const MyComponent = () => {
-    // const [data, setData] = useState(apiData);
-
-    // let CustomPagination = () => {
-    //     const UsersPerPage = () => {
-
-    //     }
-
-    //     return (
-    //         <div className='paginationWrap'>
-    //             <div>{data.length} hotels</div>
-    //             <div> 1 2 3 4 5</div>
-    //             <div>
-    //                 <button >1</button>
-    //                 <button>2</button>
-    //                 <button onClick={UsersPerPage}>3</button>
-    //             </div>
-    //         </div>
-    //     )
-    // }
     const [tableData, setTableData] = [{ id: 4, title: 'Nastia', year: '2007', age: 16 }]
-
-    let PageSize = 4;
+    //const PageSize = useSelector(state => state.paginationReducer.PageSize)
+    const [PageSize, setPageSize] = useState(2);
     const [currentPage, setCurrentPage] = useState(1);
 
     const currentTableData = useMemo(() => {
@@ -99,15 +81,6 @@ const MyComponent = () => {
         const lastPageIndex = firstPageIndex + PageSize;
         return apiData.slice(firstPageIndex, lastPageIndex);
     }, [currentPage]);
-
-    // useEffect(() => {
-    //     // for (let i = 0; i < PageSize; i++) {
-    //     //     const smth = tableData.push(apiData[i])
-    //     //     console.log('---smth---', smth); 
-    //     // }
-    //     let filteredArr = apiData.filter(item=>item.id<PageSize);
-    //     setTableData(filteredArr)
-    // }, [])
     return (
         <div>
             <DataTable
@@ -115,19 +88,18 @@ const MyComponent = () => {
                 columns={columns}
                 customStyles={customStyles}
                 pagination
-                //paginationPerPage={paginationPerPage}
-                // paginationRowsPerPageOptions={[1,2,3,4,5,6]}
-                paginationComponent={()=><Pagination
-                    className="pagination-bar"
-                    currentPage={currentPage}
-                    totalCount={apiData.length}
-                    pageSize={PageSize}
-                    onPageChange={page => setCurrentPage(page)}
-                />}
+                paginationComponent={()=>
+                    <Pagination
+                        className="pagination-bar"
+                        currentPage={currentPage}
+                        totalCount={apiData.length}
+                        pageSize={PageSize}
+                        onPageChange={page => setCurrentPage(page)}
+                        setPageSize={setPageSize}
+                    />}
             />
         </div>
     );
 }
-
 
 export default MyComponent;
