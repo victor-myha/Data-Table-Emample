@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames';
 import { usePagination, DOTS } from './usePagination';
 import './DataTable.scss';
@@ -38,13 +38,13 @@ const Pagination = (props) => {
 
     let lastPage = paginationRange[paginationRange.length - 1];
 
-
-    
-
     const handleChange = (e) => {
-        console.log('e.target.value', e.target.value);
-        dispatch({type: '', PageSize: e.target.value})
-        props.setPageSize(e.target.value);
+        const value = Number(e.target.value)
+        console.log('e.target.value',value);
+        //dispatch({type: '', PageSize: value})
+        //setSelectValue(value);
+        props.setPageSize(value);
+        props.setCurrentPage(1);
       }
     return (
         <div className='paginationWrap'>
@@ -93,12 +93,12 @@ const Pagination = (props) => {
 
             <div>
                 Hotels per page
-                <select name="select" onChange={handleChange}> 
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                <select name="select" onChange={handleChange} value={props.pageSize}> 
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                    <option value={5}>5</option>
                 </select>
             </div>
         </div>

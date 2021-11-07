@@ -5,18 +5,18 @@ import './DataTable.scss'
 import Pagination from './Pagination';
 
 const apiData = [
-    { id: 1, title: 'Victor', year: '2002', age: 17 },
-    { id: 2, title: 'Dimon', year: '2003', age: 18 },
-    { id: 3, title: 'Sasha', year: '2006', age: 19 },
-    { id: 4, title: 'Nastia', year: '2007', age: 16 },
-    { id: 5, title: 'Dimon', year: '2003', age: 18 },
+    { id: 1, title: 'Victor', year: '2001', age: 17 },
+    { id: 2, title: 'Dimon', year: '2002', age: 18 },
+    { id: 3, title: 'Sasha', year: '2003', age: 19 },
+    { id: 4, title: 'Nastia', year: '2004', age: 16 },
+    { id: 5, title: 'Dimon', year: '2005', age: 18 },
     { id: 6, title: 'Sasha', year: '2006', age: 19 },
-    { id: 7, title: 'Victor', year: '2002', age: 17 },
-    { id: 8, title: 'Dimon', year: '2003', age: 18 },
-    { id: 9, title: 'Sasha', year: '2006', age: 19 },
-    { id: 10, title: 'Victor', year: '2002', age: 17 },
-    { id: 11, title: 'Dimon', year: '2003', age: 18 },
-    { id: 12, title: 'Sasha', year: '2006', age: 19 },
+    { id: 7, title: 'Victor', year: '2007', age: 17 },
+    { id: 8, title: 'Dimon', year: '2008', age: 18 },
+    { id: 9, title: 'Sasha', year: '2009', age: 19 },
+    { id: 10, title: 'Victor', year: '2010', age: 17 },
+    { id: 11, title: 'Dimon', year: '2011', age: 18 },
+    { id: 12, title: 'Sasha', year: '2012', age: 19 },
 ];
 const columns = [
     {
@@ -73,17 +73,25 @@ const customStyles = {
 const MyComponent = () => {
     const [tableData, setTableData] = [{ id: 4, title: 'Nastia', year: '2007', age: 16 }]
     //const PageSize = useSelector(state => state.paginationReducer.PageSize)
-    const [PageSize, setPageSize] = useState(2);
+    const [PageSize, setPageSize] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
 
     const currentTableData = useMemo(() => {
+        console.log('currentPage', currentPage);
+        console.log('PageSize', PageSize);
+
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
+
+        console.log('firstPageIndex', firstPageIndex);
+        console.log('lastPageIndex', lastPageIndex);
+
         return apiData.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage]);
+    }, [currentPage, PageSize, apiData]);
+
     return (
         <div>
-            <DataTable
+            <DataTable                
                 data={currentTableData}
                 columns={columns}
                 customStyles={customStyles}
@@ -96,6 +104,11 @@ const MyComponent = () => {
                         pageSize={PageSize}
                         onPageChange={page => setCurrentPage(page)}
                         setPageSize={setPageSize}
+                        setCurrentPage={setCurrentPage}
+                        // onChangeRowsPerPage={(page, index)=>{
+                        //     console.log('------');
+                        //     console.log('page-index', page, index);
+                        // } }
                     />}
             />
         </div>
